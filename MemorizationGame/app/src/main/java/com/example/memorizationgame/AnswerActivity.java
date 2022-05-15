@@ -2,11 +2,7 @@ package com.example.memorizationgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -23,44 +19,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 public class AnswerActivity extends AppCompatActivity {
-
-
     private Chronometer timingCh;
-    HashSet<Integer> selection_key = new HashSet<>();
+    int[] selection_key = new int[3];
     int num_selection = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
-
-        //setting music
-        final Intent serviceIntent = new Intent(AnswerActivity.this,MusicService.class);
-        ImageButton musicPlayer = (ImageButton)findViewById(R.id.sound);
-        if(MusicService.isplay == false){
-            musicPlayer.setImageResource(R.drawable.start);
-        }
-        musicPlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(MusicService.isplay == false){
-                    startService(serviceIntent);
-                    musicPlayer.setImageResource(R.drawable.stop);
-                }else {
-                    stopService(serviceIntent);
-                    musicPlayer.setImageResource(R.drawable.start);
-                }
-            }
-        });
-
-        //setting time
+        //设置计时器
         timingCh = (Chronometer) findViewById(R.id.timing);
         timingCh.setBase(SystemClock.elapsedRealtime());
         timingCh.setFormat("%s");
@@ -68,17 +41,17 @@ public class AnswerActivity extends AppCompatActivity {
 
 
 
-        //receiving user and displaying score
+        //接收user并展示分数
         UerAccount user = (UerAccount) getIntent().getSerializableExtra("user");
         TextView scoreTextview = (TextView) findViewById(R.id.score);
-        scoreTextview.setText("Your Score: \n" + "     " + user.gettotalPoints());
+        scoreTextview.setText("Your Current Points: \n" + user.gettotalPoints());
 
-        //receiving game and displaying badge
+        //接收game并接收相应答案
         Game bronze = (Game) getIntent().getSerializableExtra("game");
         int[] shapes = bronze.shapes;
 
 
-        //displaying options
+        //选项展示
         Object[] options = bronze.getOptions();
         int num1 = (int) options[0];
         int num2 = (int) options[1];
@@ -100,7 +73,7 @@ public class AnswerActivity extends AppCompatActivity {
         option6.setImageResource(shapes[num6]);
 
 
-        //showing user's selections
+        //选取答案
         ImageView userSelection1 = (ImageView) findViewById(R.id.user_image1);
         ImageView userSelection2 = (ImageView) findViewById(R.id.user_image2);
         ImageView userSelection3 = (ImageView) findViewById(R.id.user_image3);
@@ -110,7 +83,7 @@ public class AnswerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(num_selection < 3){
-                    selection_key.add(num1);
+                    selection_key[num_selection] = num1;
                     if(num_selection == 0){
                         userSelection1.setImageResource(shapes[num1]);
                         num_selection++;
@@ -131,7 +104,7 @@ public class AnswerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(num_selection < 3){
-                    selection_key.add(num2);
+                    selection_key[num_selection] = num2;
                     if(num_selection == 0){
                         userSelection1.setImageResource(shapes[num2]);
                         num_selection++;
@@ -152,7 +125,7 @@ public class AnswerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(num_selection < 3){
-                    selection_key.add(num3);
+                    selection_key[num_selection] = num3;
                     if(num_selection == 0){
                         userSelection1.setImageResource(shapes[num3]);
                         num_selection++;
@@ -173,7 +146,7 @@ public class AnswerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(num_selection < 3){
-                    selection_key.add(num4);
+                    selection_key[num_selection] = num4;
                     if(num_selection == 0){
                         userSelection1.setImageResource(shapes[num4]);
                         num_selection++;
@@ -195,7 +168,7 @@ public class AnswerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(num_selection < 3){
-                    selection_key.add(num5);
+                    selection_key[num_selection] = num5;
                     if(num_selection == 0){
                         userSelection1.setImageResource(shapes[num5]);
                         num_selection++;
@@ -217,7 +190,7 @@ public class AnswerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(num_selection < 3){
-                    selection_key.add(num6);
+                    selection_key[num_selection] = num6;
                     if(num_selection == 0){
                         userSelection1.setImageResource(shapes[num6]);
                         num_selection++;
@@ -234,7 +207,7 @@ public class AnswerActivity extends AppCompatActivity {
             }
         });
 
-        //setting clear button to clear all user's selections
+        //清除所有选择
         Button clearButton = (Button)findViewById(R.id.clear);
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,12 +216,11 @@ public class AnswerActivity extends AppCompatActivity {
                 userSelection2.setImageResource(R.drawable.empty);
                 userSelection3.setImageResource(R.drawable.empty);
                 num_selection = 0;
-                selection_key.clear();
             }
         });
 
 
-        //setting done button
+        //选择完毕设置button
         Button doneButton = (Button)findViewById(R.id.done);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,12 +229,11 @@ public class AnswerActivity extends AppCompatActivity {
                 intent.putExtra("selection",selection_key);
                 intent.putExtra("user",user);
                 intent.putExtra("game",bronze);
+                long time = SystemClock.elapsedRealtime();
                 timingCh.stop();
                 startActivity(intent);
             }
         });
-
-
 
     }
 
