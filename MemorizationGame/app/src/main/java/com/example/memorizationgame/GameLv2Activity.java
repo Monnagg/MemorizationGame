@@ -3,11 +3,8 @@ package com.example.memorizationgame;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -17,20 +14,14 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.HashMap;
-
-public class GameActivity extends AppCompatActivity {
-
-
+public class GameLv2Activity extends AppCompatActivity {
     Chronometer ch;
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_game_lv2);
 
         //receiving user and displaying user information
         UerAccount user = (UerAccount) getIntent().getSerializableExtra("user");
@@ -39,16 +30,24 @@ public class GameActivity extends AppCompatActivity {
 
         //Displaying shapes
         Game bronze = new Game();
-        int[] answer = bronze.getAnswer();
+        int[] answer = bronze.getAnswerLevel2();
         ImageView shape1 = findViewById(R.id.shape1View);
         shape1.setImageResource(bronze.shapes[answer[0]]);
         ImageView shape2 = findViewById(R.id.shape2View);
         shape2.setImageResource(bronze.shapes[answer[1]]);
         ImageView shape3 = findViewById(R.id.shape3View);
         shape3.setImageResource(bronze.shapes[answer[2]]);
+        ImageView shape4 = findViewById(R.id.shape4View);
+        shape4.setImageResource(bronze.shapes[answer[3]]);
+        ImageView shape5 = findViewById(R.id.shape5View);
+        shape5.setImageResource(bronze.shapes[answer[4]]);
+        ImageView shape6 = findViewById(R.id.shape6View);
+        shape6.setImageResource(bronze.shapes[answer[5]]);
+
+
 
         //setting music
-        final Intent serviceIntent = new Intent(GameActivity.this,MusicService.class);
+        final Intent serviceIntent = new Intent(GameLv2Activity.this,MusicService.class);
         ImageButton musicPlayer = (ImageButton)findViewById(R.id.sound);
         if(MusicService.isplay == false){
             musicPlayer.setImageResource(R.drawable.start);
@@ -79,7 +78,7 @@ public class GameActivity extends AppCompatActivity {
 
                 if (SystemClock.elapsedRealtime() - ch.getBase() >= 0) {
                     ch.stop();
-                    Intent intent = new Intent(GameActivity.this, AnswerActivity.class);
+                    Intent intent = new Intent(GameLv2Activity.this, AnswerLv2Activity.class);
                     //delivering data
                     intent.putExtra("game", bronze);
                     intent.putExtra("user", user);
@@ -93,13 +92,11 @@ public class GameActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(GameActivity.this, AccountActivity.class);
+                Intent intent = new Intent(GameLv2Activity.this, AccountActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
             }
         });
-
-
 
     }
 }

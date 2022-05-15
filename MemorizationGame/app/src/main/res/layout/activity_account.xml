@@ -4,21 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/account"
+    android:background="@mipmap/accountbac"
     tools:context=".AccountActivity">
 
+
+    <ImageButton
+        android:id="@+id/sound"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:background="#0000"
+        android:src="@drawable/stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"/>
+
+    <ImageButton
+        android:id="@+id/questionmark4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showDialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98"
+        app:srcCompat="@drawable/questionmark" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="72dp"
         android:text="@string/completed_rounds"
-        android:textColor="#D1CFC2"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.573"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
@@ -49,11 +74,11 @@
 
     <TextView
         android:id="@+id/rank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
         android:layout_marginTop="68dp"
-        android:fontFamily="cursive"
-        android:textColor="#C5B76F"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -62,29 +87,53 @@
 
     <TextView
         android:id="@+id/round"
-        android:layout_width="0dp"
-        android:layout_height="15dp"
-        android:layout_marginTop="44dp"
-        android:textColor="@color/white"
+        android:scrollbars="vertical"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textAllCaps="false"
         android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39" />
 
     <Button
         android:id="@+id/startgame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:backgroundTint="#BCAA0C"
         android:text="START"
-        android:textColor="#D1CFC2"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rank" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="245dp"
+        android:layout_height="139dp"
+        android:layout_marginBottom="88dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/round"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rank"
-        app:layout_constraintVertical_bias="0.523" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.307"
+        app:srcCompat="@mipmap/head" />
+
+    <ImageView
+        android:id="@+id/badge"
+        android:layout_width="77dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@mipmap/badge1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

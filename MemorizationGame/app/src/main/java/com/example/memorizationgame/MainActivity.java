@@ -1,15 +1,21 @@
 package com.example.memorizationgame;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.utils.widget.ImageFilterButton;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,13 +23,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*ImageButton questionmark = (ImageButton) findViewById(R.id.questionmark1);
-        questionmark.setOnClickListener(new View.OnClickListener() {
+
+        //setting music
+        final Intent serviceIntent = new Intent(MainActivity.this,MusicService.class);
+        ImageButton musicPlayer = (ImageButton)findViewById(R.id.sound);
+        musicPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog();
+                if(MusicService.isplay == false){
+                    startService(serviceIntent);
+                    musicPlayer.setImageResource(R.drawable.stop);
+                }else {
+                    stopService(serviceIntent);
+                    musicPlayer.setImageResource(R.drawable.start);
+                }
             }
-        });*/
+        });
+
+
         Button newAccount = (Button)findViewById(R.id.newAccount);
         newAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         Button login = (Button)findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,17 +58,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        //question mark
+        ImageButton questionmark = (ImageButton) findViewById(R.id.questionmark1);
+        questionmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(view );
+            }
+        });
+
     }
 
-
-
-
-
-
-   /* public void showDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    public  void showDialog(View view){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle("Instruction");
-        builder.setMessage("how to play");
+        builder.setMessage("choose the right shape that you have already seen");
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -59,7 +83,11 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
 
-    }*/
-
+    @Override
+    protected void onStart() {
+        startService(new Intent(MainActivity.this,MusicService.class));
+        super.onStart();
+    }
 }

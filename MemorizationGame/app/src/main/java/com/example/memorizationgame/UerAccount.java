@@ -9,8 +9,10 @@ public class UerAccount implements Serializable {
 
     private String userName;
     private String passWord;
-    //HashMap name_password = new HashMap<>();//存储用户名和密码
-    ArrayList points = new ArrayList();//存储每轮的分数
+    //HashMap name_password = new HashMap<>();
+    ArrayList points = new ArrayList();
+    public static final long serialVersionUID = 329063264L;
+
 
 
     public UerAccount() {
@@ -47,9 +49,8 @@ public class UerAccount implements Serializable {
 
     public int getCompleteRounds(){
         int totalRound = 0;
-        Iterator iterator = points.iterator();
-        while (iterator.hasNext()) {
-            totalRound += (int) iterator.next();
+        for (int i = 0; i < points.size(); i++) {
+            totalRound ++;
         }
         return totalRound;
     }
@@ -73,5 +74,10 @@ public class UerAccount implements Serializable {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
+    }
+
+    @Override
+    public String toString() {
+        return this.userName;
     }
 }
